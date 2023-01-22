@@ -1,29 +1,68 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import { ref, computed, onMounted } from "vue";
+
+const wins = ref(0);
+const losses = ref(0);
+const draws = ref(0);
+
+const choice = ref(null);
+const computerChoice = ref(null);
+const verdict = ref(null);
+
+const outcome = {
+  rock: {
+    rock: "draw",
+    paper: "loss",
+    scissors: "wind",
+  },
+  paper: {
+    rock: "win",
+    paper: "draw",
+    scissors: "loss",
+  },
+  scissors: {
+    rock: "loss",
+    paper: "wind",
+    scissors: "draw",
+  },
+};
+
+const play = (c) => {
+  choice.value = c;
+  const choices = ["rock", "paper", "scissors"];
+
+  const random = Math.floor(Math.random() * choices.length);
+  computerChoice.value = choices[random];
+
+  const outcome = outcome[c][computerChoice.value];
+
+  if (outcome === "win") {
+    wins.value++;
+    verdict.value = "Ganaste";
+  } else if (outcome === "loss") {
+    losses.value++;
+    verdict.value = "Perdiste";
+  } else {
+    draws.value++;
+    verdict.value = "Es un empate!";
+  }
+
+  saveGame();
+};
+
+const saveGame = () => {
+  localStorage.setItem("wins", wins.value);
+  localStorage.setItem("draws", draws.value);
+  localStorage.setItem("losses", losses.value);
+};
+
+const loadGame = () => {
+  wins.value = localStorage.getItem("wins");
+  draws.value = localStorage.getItem("draws");
+  losses.value = localStorage.getItem("losses");
+};
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <h1>Hello World</h1>
 </template>
-
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
