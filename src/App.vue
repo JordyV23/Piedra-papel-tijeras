@@ -27,6 +27,11 @@ const outcome = {
   },
 };
 
+const winPercentage = computed(() => {
+  const total = wins.value + draws.value + losses.value;
+  return total ? (wins.value / total) * 100 : 0;
+});
+
 const play = (c) => {
   choice.value = c;
   const choices = ["rock", "paper", "scissors"];
@@ -61,6 +66,21 @@ const loadGame = () => {
   draws.value = localStorage.getItem("draws");
   losses.value = localStorage.getItem("losses");
 };
+
+const resetRound = () => {
+  choice.value = null;
+  computerChoice = null;
+  verdict.value = null;
+};
+
+onMounted(() => {
+  loadGame();
+  window.addEventListener("keypress", (e) => {
+    if (e.key === "r") {
+      resetRound();
+    }
+  });
+});
 </script>
 
 <template>
