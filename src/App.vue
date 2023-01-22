@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
-
+//13:19
 const wins = ref(0);
 const losses = ref(0);
 const draws = ref(0);
@@ -84,5 +84,37 @@ onMounted(() => {
 </script>
 
 <template>
-  <h1>Hello World</h1>
+  <div class="bg-gray-700 text-white text-center min-h-screen flex flex-col">
+    <header class="container mx-auto p-6">
+      <h1 class="text-4xl font-bold">Piedra, Papel O Tijeras</h1>
+    </header>
+
+    <main class="container mx-auto p-6 flex-l">
+      <div
+        v-if="choice === null"
+        class="flex items-center justify-center -mx-6"
+      >
+        <button
+          @click="play('rock')"
+          class="bg-white rounded-full shadow-lg w-64 p-12 mx-6 transition-colors duration-300 hover:bg-pink-500"
+        >
+          <img src="./assets/RockIcon.svg" alt="Rock" class="w-full" />
+        </button>
+
+        <button
+          @click="play('paper')"
+          class="bg-white rounded-full shadow-lg w-64 p-12 mx-6 transition-colors duration-300 hover:bg-green-500"
+        >
+          <img src="./assets/PaperIcon.svg" alt="paper" class="w-full" />
+        </button>
+
+        <button
+          @click="play('scissors')"
+          class="bg-white rounded-full shadow-lg w-64 p-12 mx-6 transition-colors duration-300 hover:bg-yellow-500"
+        >
+          <img src="./assets/ScissorsIcon.svg" alt="scissor" class="w-full" />
+        </button>
+      </div>
+    </main>
+  </div>
 </template>
