@@ -1,4 +1,5 @@
 <script setup>
+import Footer from "./components/footer.vue";
 import { ref, computed, onMounted } from "vue";
 //13:19
 const wins = ref(0);
@@ -43,13 +44,13 @@ const play = (c) => {
 
   if (outcome === "win") {
     wins.value++;
-    verdict.value = "Ganaste";
+    verdict.value = "¡Ganaste!";
   } else if (outcome === "loss") {
     losses.value++;
-    verdict.value = "Perdiste";
+    verdict.value = "¡Perdiste!";
   } else {
     draws.value++;
-    verdict.value = "Es un empate!";
+    verdict.value = "¡Es un empate!";
   }
 
   saveGame();
@@ -62,9 +63,9 @@ const saveGame = () => {
 };
 
 const loadGame = () => {
-  wins.value = localStorage.getItem("wins");
-  draws.value = localStorage.getItem("draws");
-  losses.value = localStorage.getItem("losses");
+  wins.value = parseInt(localStorage.getItem("wins")) || 0;
+  draws.value = parseInt(localStorage.getItem("draws")) || 0;
+  losses.value = parseInt(localStorage.getItem("losses")) || 0;
 };
 
 const resetRound = () => {
@@ -130,8 +131,20 @@ onMounted(() => {
           {{ verdict }}
         </div>
 
-        <button @click="resetRound" class="bg-pink-500 text-lg py-2 px-4">Reset</button>
+        <button @click="resetRound" class="bg-pink-500 text-lg py-2 px-4">
+          Jugar de Nuevo
+        </button>
       </div>
     </main>
+
+    <div class="mt-12 text-3xl mb-4">
+      Victorias: {{ wins }} / Empates: {{ draws }} / Derrotas: {{ losses }}
+    </div>
+
+    <div class="class text-lg">
+      Tasa de Victorias : {{ Math.round(winPercentage) }}%
+    </div>
+
+    <Footer />
   </div>
 </template>
