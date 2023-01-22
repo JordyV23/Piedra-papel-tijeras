@@ -9,7 +9,7 @@ const choice = ref(null);
 const computerChoice = ref(null);
 const verdict = ref(null);
 
-const outcome = {
+const outcomes = {
   rock: {
     rock: "draw",
     paper: "loss",
@@ -39,7 +39,7 @@ const play = (c) => {
   const random = Math.floor(Math.random() * choices.length);
   computerChoice.value = choices[random];
 
-  const outcome = outcome[c][computerChoice.value];
+  const outcome = outcomes[c][computerChoice.value];
 
   if (outcome === "win") {
     wins.value++;
@@ -69,7 +69,7 @@ const loadGame = () => {
 
 const resetRound = () => {
   choice.value = null;
-  computerChoice = null;
+  computerChoice.value = null;
   verdict.value = null;
 };
 
@@ -114,6 +114,23 @@ onMounted(() => {
         >
           <img src="./assets/ScissorsIcon.svg" alt="scissor" class="w-full" />
         </button>
+      </div>
+
+      <div v-else>
+        <div class="text-3xl mb-4">
+          Escogiste <span class="text-pink-500">{{ choice }}</span>
+        </div>
+
+        <div class="text-3xl mb-4">
+          La computadora escogió
+          <span class="text-green-500">{{ computerChoice }}</span>
+        </div>
+
+        <div class="text-6xl mb-12">
+          {{ verdict }}
+        </div>
+
+        <button @click="resetRound" class="bg-pink-500 text-lg py-2 px-4">Reset</button>
       </div>
     </main>
   </div>
